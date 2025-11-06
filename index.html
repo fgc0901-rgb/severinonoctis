@@ -3,70 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <title>Codex de Severino Noctis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Georgia&display=swap" rel="stylesheet">
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Codex de Severino Noctis</h1>
-    <nav>
+  <!-- Hero com parallax -->
+  <header class="hero" id="topo">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <img src="imagens/simbolo.png" alt="Selo de Noctis" class="logo">
+      <h1>Codex de Severino Noctis</h1>
+      <p class="subtitle">Grimório da Lua Sangrenta</p>
+      <a href="#historia" class="cta">Entrar no códex</a>
+    </div>
+    <!-- Navegação -->
+    <nav class="navbar">
       <ul>
         <li><a href="#historia">História</a></li>
         <li><a href="#galeria">Galeria</a></li>
         <li><a href="#eventos">Eventos</a></li>
-        <li><a href="#atlanta">Regras de Atlanta</a></li>
+        <li><a href="#atlanta">Regras</a></li>
         <li><a href="#economia">Economia</a></li>
         <li><a href="#lore">Lore</a></li>
       </ul>
+      <span class="nav-indicator"></span>
     </nav>
   </header>
 
   <main>
-    <section id="historia">
-      <h2>História do Personagem</h2>
-      <div id="historia-conteudo"></div>
-    </section>
-
-    <section id="galeria">
-      <h2>Galeria de Fotos</h2>
-      <div class="grid-galeria">
-        <img src="imagens/noctis1.jpg" alt="Severino Noctis">
-        <img src="imagens/noctis2.jpg" alt="Lua Sangrenta">
-        <img src="imagens/noctis3.jpg" alt="Ritual Escarlate">
+    <!-- História -->
+    <section id="historia" class="section">
+      <div class="section-header">
+        <h2>História</h2>
+        <p>Os passos do Errante sob o véu da Lua Sangrenta.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-track"></div>
+        <article class="card reveal">
+          <h3>Origem</h3>
+          <p id="historia-origem">...</p>
+        </article>
+        <article class="card reveal">
+          <h3>Ritual Falho</h3>
+          <p id="historia-ritual">...</p>
+        </article>
+        <article class="card reveal">
+          <h3>Errância</h3>
+          <p id="historia-errancia">...</p>
+        </article>
       </div>
     </section>
 
-    <section id="eventos">
-      <h2>Eventos</h2>
-      <ul id="lista-eventos"></ul>
+    <!-- Galeria -->
+    <section id="galeria" class="section">
+      <div class="section-header">
+        <h2>Galeria</h2>
+        <p>Vestígios, símbolos e memórias do condenado.</p>
+      </div>
+      <div class="filters">
+        <button data-filter="all" class="btn active">Tudo</button>
+        <button data-filter="noctis" class="btn">Noctis</button>
+        <button data-filter="ritual" class="btn">Ritual</button>
+        <button data-filter="lua" class="btn">Lua</button>
+      </div>
+      <div class="grid-galeria">
+        <figure class="item reveal" data-cat="noctis">
+          <img src="imagens/noctis1.jpg" alt="Noctis I" loading="lazy"/>
+          <figcaption>O Último Eco</figcaption>
+        </figure>
+        <figure class="item reveal" data-cat="lua">
+          <img src="imagens/lua.jpg" alt="Lua Sangrenta" loading="lazy"/>
+          <figcaption>Lua Sangrenta</figcaption>
+        </figure>
+        <figure class="item reveal" data-cat="ritual">
+          <img src="imagens/ritual.jpg" alt="Ritual Escarlate" loading="lazy"/>
+          <figcaption>Ritual Escarlate</figcaption>
+        </figure>
+      </div>
+      <!-- Lightbox -->
+      <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Fechar">×</button>
+        <img class="lightbox-img" alt="">
+        <p class="lightbox-caption"></p>
+      </div>
     </section>
 
-    <section id="atlanta">
-      <h2>Regras Gerais de Atlanta</h2>
-      <ul>
-        <li>Respeito às ordens ocultas e tradições locais.</li>
-        <li>Participação mínima em eventos sobrenaturais.</li>
-        <li>Imersão obrigatória no universo noturno.</li>
+    <!-- Eventos -->
+    <section id="eventos" class="section">
+      <div class="section-header">
+        <h2>Eventos</h2>
+        <p>Cicatrizes no tempo do Condenado.</p>
+      </div>
+      <div class="events">
+        <details class="event reveal">
+          <summary><span>Queda dos Escarlates</span><span class="drop"></span></summary>
+          <div class="content"><p id="evento-queda">...</p></div>
+        </details>
+        <details class="event reveal">
+          <summary><span>Noites da Lua Sangrenta</span><span class="drop"></span></summary>
+          <div class="content"><p id="evento-lua">...</p></div>
+        </details>
+        <details class="event reveal">
+          <summary><span>Vestígios de Vaela</span><span class="drop"></span></summary>
+          <div class="content"><p id="evento-vaela">...</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Regras -->
+    <section id="atlanta" class="section alt-bg">
+      <div class="section-header">
+        <h2>Regras Gerais de Atlanta</h2>
+        <p>Convivência sob o pacto urbano.</p>
+      </div>
+      <ul class="rules reveal-list">
+        <li><span class="icon">☾</span><div><strong>Tradições ocultas</strong><p>Respeite os clãs e seus ritos velados.</p></div></li>
+        <li><span class="icon">⚖</span><div><strong>Pacto de silêncio</strong><p>Jamais exponha o além ao mundo desperto.</p></div></li>
+        <li><span class="icon">✢</span><div><strong>Imersão noturna</strong><p>Participe do ciclo lunar e seus chamados.</p></div></li>
       </ul>
     </section>
 
-    <section id="economia">
-      <h2>Economia do Condado</h2>
-      <p>Atlanta é um centro econômico com PIB superior a US$ 570 bilhões.</p>
-      <p>Empresas como Coca-Cola, Delta Airlines e UPS moldam o comércio.</p>
-      <p>O condado mistura modernidade com tradições ocultas.</p>
+    <!-- Economia -->
+    <section id="economia" class="section">
+      <div class="section-header">
+        <h2>Economia do Condado</h2>
+        <p>Os fluxos do sangue mercantil.</p>
+      </div>
+      <div class="chart-wrap reveal">
+        <canvas id="economiaChart" width="600" height="300"></canvas>
+      </div>
     </section>
 
-    <section id="lore">
-      <h2>Lore do Personagem</h2>
-      <div id="lore-conteudo"></div>
+    <!-- Lore -->
+    <section id="lore" class="section">
+      <div class="section-header">
+        <h2>Lore do Personagem</h2>
+        <p>Fragmentos do códex e marcas do ritual.</p>
+      </div>
+      <article class="lore-text reveal" id="lore-conteudo">...</article>
+      <blockquote class="maxim reveal">
+        “Prefiro a maldição que termina um caminho ao vazio que me nega ser.”
+      </blockquote>
     </section>
   </main>
 
-  <footer>
-    <p>“Prefiro a maldição que termina um caminho ao vazio que me nega ser.”</p>
+  <!-- Rodapé -->
+  <footer class="footer">
+    <a href="#topo" class="to-top">Voltar ao topo</a>
     <p>© Codex Severino Noctis</p>
   </footer>
 
+  <!-- Canvas partículas -->
+  <canvas id="particles"></canvas>
+
+  <!-- Máscara de transição -->
+  <div class="page-transition" id="pageTransition"></div>
+
+  <!-- Áudio ambiente -->
+  <audio id="ambiente" autoplay loop>
+    <source src="sons/ambiente.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
