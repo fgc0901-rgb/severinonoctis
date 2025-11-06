@@ -1,0 +1,23 @@
+{
+  "identidade": {
+    "nome": "Severino Noctis",
+    "alcunhas": ["O Último Eco", "O Errante da Lua Sangrenta", "O Condenado do Sangue"],
+    "apelido": "O Filho da Lua Sangrenta",
+    "natureza": "Sobrevivente marcado pela Magia Obscura"
+  },
+  "linhagem": {
+    "heranca": "Remanescente das sociedades que estudaram fragmentos da Magia Obscura das Bruxas de Noctum",
+    "queda": "Testemunha da destruição dos Escarlates na Lua Sangrenta",
+    "marca": "Cicatrizes místicas do ritual falho"
+  },
+  "idade": {
+    "aparente": "45–50 anos",
+    "real": "200+ anos"
+  },
+  "desejo": {
+    "obsessao": "Tornar-se vampiro",
+    "motivo": "Romper a incompletude",
+    "postura": "Prefere a maldição à estagnação"
+  },
+  "frase": "Prefiro a maldição que termina um caminho ao vazio que me nega ser."
+}
