@@ -1,7 +1,7 @@
 body {
   font-family: 'Georgia', serif;
-  background: #0b0b0b;
-  color: #e0e0e0;
+  background: #0b0b0b; /* Preto Abissal */
+  color: #f5f5f5; /* Branco Pálido */
   margin: 0;
   padding: 0;
 }
@@ -10,12 +10,13 @@ header {
   background: #111;
   padding: 20px;
   text-align: center;
-  border-bottom: 2px solid crimson;
+  border-bottom: 2px solid #b22222; /* Carmesim Sangrento */
 }
 
 header h1 {
-  color: crimson;
+  color: #b22222;
   margin: 0;
+  font-family: 'Cinzel Decorative', serif;
 }
 
 nav ul {
@@ -27,23 +28,28 @@ nav ul {
 }
 
 nav a {
-  color: #e0e0e0;
+  color: #f5f5f5;
   text-decoration: none;
   transition: color 0.3s;
 }
 
 nav a:hover {
-  color: crimson;
+  color: #8b0000; /* Vermelho Escarlate */
 }
 
 section {
   padding: 40px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #4b0082; /* Roxo Obscuro */
 }
 
 h2 {
-  color: #ff4444;
+  color: #b22222;
   margin-bottom: 20px;
+  font-family: 'Cinzel Decorative', serif;
+}
+
+p, li {
+  color: #f5f5f5;
 }
 
 .grid-galeria {
@@ -54,19 +60,21 @@ h2 {
 
 .grid-galeria img {
   width: 100%;
-  border: 2px solid crimson;
+  border: 2px solid #c0c0c0; /* Prata Lunar */
   border-radius: 5px;
-  transition: transform 0.3s;
+  transition: transform 0.3s, border-color 0.3s;
 }
 
 .grid-galeria img:hover {
   transform: scale(1.05);
+  border-color: #8b0000; /* Vermelho Escarlate */
 }
 
 footer {
   background: #111;
   text-align: center;
   padding: 20px;
-  border-top: 2px solid crimson;
+  border-top: 2px solid #b22222;
   font-style: italic;
+  color: #555555; /* Cinza Ferro */
 }
