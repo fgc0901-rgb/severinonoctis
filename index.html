@@ -22,7 +22,6 @@
         <li><a href="#historia">História</a></li>
         <li><a href="#galeria">Galeria</a></li>
         <li><a href="#eventos">Eventos</a></li>
-        <li><a href="#atlanta">Regras</a></li>
         <li><a href="#economia">Economia</a></li>
         <li><a href="#lore">Lore</a></li>
       </ul>
@@ -42,6 +41,12 @@
     <!-- Galeria -->
     <section id="galeria" class="section">
       <h2>Galeria</h2>
+      <div class="filters">
+        <button class="btn active" data-filter="all">Todos</button>
+        <button class="btn" data-filter="noctis">Noctis</button>
+        <button class="btn" data-filter="lua">Lua</button>
+        <button class="btn" data-filter="ritual">Rituais</button>
+      </div>
       <div class="grid-galeria">
         <figure class="item" data-cat="noctis">
           <img src="imagens/noctis1.jpg" alt="Noctis I"/>
@@ -86,15 +91,18 @@
   </main>
 
   <footer>
+  <footer>
     <p>© Codex Severino Noctis</p>
   </footer>
 
   <canvas id="particles"></canvas>
-  <audio id="ambiente" autoplay loop>
+  <audio id="ambiente" loop>
     <source src="sons/ambiente.mp3" type="audio/mpeg">
   </audio>
+  <div class="audio-controls">
+    <button class="audio-toggle" id="audioToggle" title="Controlar áudio">🔊</button>
+  </div>
   <div class="page-transition" id="pageTransition"></div>
 
   <script src="script.js"></script>
-</body>
 </html>
