@@ -1,0 +1,11 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY bot/package.json ./bot/package.json
+RUN cd bot && npm install --production && cd ..
+COPY bot/src ./bot/src
+COPY scripts/points_server.js ./scripts/points_server.js
+COPY content_points.csv ./content_points.csv
+# Expor portas: 3080 status, 4580 pontos (ajustável via env)
+EXPOSE 3080 4580
+ENV NODE_ENV=production
+CMD ["node", "bot/src/index.js"]

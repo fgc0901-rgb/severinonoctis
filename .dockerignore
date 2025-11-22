@@ -1,0 +1,8 @@
+node_modules
+*.log
+.env
+.env.*
+dist
+tmp
+**/.DS_Store
+bot/.env

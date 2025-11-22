@@ -53,3 +53,23 @@ Red Dead Redemption 2 © Rockstar Games. As imagens aqui são capturas autorais 
 - Script PowerShell para lote de conversão e limpeza EXIF.
 - Galeria dinâmica filtrável por clima (neblina, tempestade, crepúsculo).
 - Overlay comparativo (antes/depois aplicação LUT).
+
+## Plano de Fundo Dinâmico
+O site pode usar uma captura RDR2 como plano de fundo global (escurecido por overlay) de três maneiras:
+
+1. Seleção diária automática: escolhe uma captura diferente por dia (hash da data) — armazenado em `localStorage`.
+2. Parâmetro de URL: `?bg=nome_do_arquivo.webp` força o fundo imediatamente.
+3. Função global no console: `setRdr2Background('arquivo.webp')` persiste override até mudar novamente.
+
+Além disso há um botão 🖼️ ("Alternar plano de fundo") na interface que cicla para a próxima captura listada em `rdr2.json`.
+
+### Para adicionar nova imagem como candidata a fundo
+1. Converter para WebP (recomendado) ou manter JPG se necessário.
+2. Inserir entrada em `rdr2.json` com `arquivo` e `alt`.
+3. (Opcional) Usar `?bg=arquivo.webp` para testar.
+
+### Dicas de ALT para plano de fundo
+Use descrição concisa da cena + atmosfera:
+```
+"Cena de Red Dead Redemption 2 – neblina dourada atravessando vale ao amanhecer"
+```

@@ -1,0 +1,49 @@
+name: Deploy Frontend (GitHub Pages)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Prepare artifact
+        run: |
+          mkdir dist
+          cp index.html dist/
+          cp manifest.json dist/
+          cp service-worker.js dist/
+          cp style.css dist/
+          cp script.js dist/
+          cp LICENSE dist/ || true
+          cp -r data dist/data
+          cp -r imagens dist/imagens
+          cp -r sons dist/sons
+          [ -f CNAME ] && cp CNAME dist/CNAME || true
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,52 @@
+name: Build & Publish Bots Image
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'bot/**'
+      - 'Dockerfile.bots'
+      - 'scripts/points_server.js'
+      - 'docker-compose.yml'
+  workflow_dispatch:
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/severinonoctis-bots:latest
+          docker build -f Dockerfile.bots -t $IMAGE .
+          docker push $IMAGE
+      - name: Output image name
+        run: echo "Image pushed: ghcr.io/${{ github.repository_owner }}/severinonoctis-bots:latest"
+
+  deploy-vps:
+    if: ${{ secrets.VPS_HOST != '' && secrets.VPS_USER != '' && secrets.VPS_KEY != '' }}
+    needs: build-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install ssh key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_KEY }}
+      - name: Copy compose file
+        run: |
+          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:~/severinonoctis/docker-compose.yml
+      - name: Remote deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd severinonoctis && docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} && docker compose pull bots && docker compose up -d bots"

@@ -327,6 +327,50 @@ Promise.all([
         const file = `imagens/rdr2/${c.arquivo}`;
         return `<figure class="item" data-cat="rdr2"><img src="${file}" alt="${alt}" loading="lazy" decoding="async" width="300" height="300" /><figcaption>${alt}</figcaption></figure>`;
       }).join('');
+      // Usa a primeira captura como plano de fundo global
+      // Seleção diária determinística (hash da data) se não houver override
+      const today = new Date().toISOString().slice(0,10);
+      const storedOverride = localStorage.getItem('rdr2BgOverride');
+      const paramBg = new URLSearchParams(location.search).get('bg');
+      let chosenFile = null;
+      if(paramBg){
+        chosenFile = paramBg;
+      } else if(storedOverride){
+        chosenFile = storedOverride;
+      } else {
+        const lastDate = localStorage.getItem('rdr2BgDailyDate');
+        const lastFile = localStorage.getItem('rdr2BgDailyFile');
+        if(lastDate === today && lastFile){
+          chosenFile = lastFile;
+        } else {
+          // hash simples
+            let hash = 0; for(let i=0;i<today.length;i++){ hash = (hash*31 + today.charCodeAt(i)) & 0xffffffff; }
+            const idx = Math.abs(hash) % rdr2.capturas.length;
+            chosenFile = rdr2.capturas[idx].arquivo;
+            localStorage.setItem('rdr2BgDailyDate', today);
+            localStorage.setItem('rdr2BgDailyFile', chosenFile);
+        }
+      }
+      if(chosenFile){
+        document.body.classList.add('rdr2-bg');
+        document.body.style.setProperty('--rdr2-bg-image', `url('imagens/rdr2/${chosenFile}')`);
+      }
+      // Se houver parâmetro de URL ?bg=arquivo.webp substitui a imagem
+      const params = new URLSearchParams(location.search);
+      const overrideBg = params.get('bg');
+      if(overrideBg){
+        const found = rdr2.capturas.find(c=>c.arquivo === overrideBg);
+        const finalFile = found ? found.arquivo : overrideBg; // permite testar imagem nova
+        document.body.classList.add('rdr2-bg');
+        document.body.style.setProperty('--rdr2-bg-image', `url('imagens/rdr2/${finalFile}')`);
+        localStorage.setItem('rdr2BgOverride', finalFile);
+      } else {
+        const stored = localStorage.getItem('rdr2BgOverride');
+        if(stored){
+          document.body.classList.add('rdr2-bg');
+          document.body.style.setProperty('--rdr2-bg-image', `url('imagens/rdr2/${stored}')`);
+        }
+      }
     }
   }
 }).catch(err => console.error('Erro ao carregar dados modularizados:', err));
@@ -397,7 +441,13 @@ function initPointsCharts(){
   const typeCanvas = document.getElementById('pointsTypeChart');
   const summaryEl = document.getElementById('pointsSummary');
   if(!weekCanvas || !typeCanvas) return;
-  fetch('http://localhost:4580').then(r=>r.json()).then(json => {
+  const endpoints = ['/points','/api/points','http://localhost:3080/points','http://localhost:4580'];
+  function tryFetch(list){
+    if(list.length===0){ if(summaryEl) summaryEl.textContent='Sem resposta do servidor de pontos.'; return Promise.reject(); }
+    const url = list[0];
+    return fetch(url).then(r=> r.ok ? r.json(): Promise.reject()).catch(()=> tryFetch(list.slice(1)));
+  }
+  tryFetch(endpoints).then(json => {
     if(json.error){ summaryEl.textContent = 'Servidor de pontos indisponível.'; return; }
     const byDate = json.by_date || {}; // { '2025-11-21': pts }
     // Ordena por data crescente
@@ -516,4 +566,28 @@ if (audio && audioToggle) {
       isPlaying = false;
       audioToggle.textContent = '🔇';
     });
+}
+
+// ===== FUNÇÃO GLOBAL PARA DEFINIR BACKGROUND MANUALMENTE =====
+window.setRdr2Background = function(filename){
+  if(!filename){ console.log('Informe o nome do arquivo (ex: rdr2_acampamento_noturno_02.webp)'); return; }
+  document.body.classList.add('rdr2-bg');
+  document.body.style.setProperty('--rdr2-bg-image', `url('imagens/rdr2/${filename}')`);
+  localStorage.setItem('rdr2BgOverride', filename);
+  console.log('Plano de fundo atualizado para', filename);
+};
+
+// ===== BOTÃO DE ALTERNÂNCIA DE FUNDO =====
+const bgToggle = document.getElementById('bgToggle');
+if(bgToggle){
+  bgToggle.addEventListener('click', () => {
+    fetch('imagens/rdr2/rdr2.json').then(r=>r.json()).then(data => {
+      if(!data.capturas || data.capturas.length === 0){ return; }
+      const current = localStorage.getItem('rdr2BgOverride') || localStorage.getItem('rdr2BgDailyFile');
+      const index = data.capturas.findIndex(c=>c.arquivo === current);
+      const nextIdx = index >= 0 ? (index + 1) % data.capturas.length : 0;
+      const nextFile = data.capturas[nextIdx].arquivo;
+      setRdr2Background(nextFile);
+    }).catch(()=>{});
+  });
 }
