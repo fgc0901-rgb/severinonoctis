@@ -1,0 +1,58 @@
+# Environment & secrets
+.env
+.env.*
+
+# Node dependencies
+node_modules/
+bot/node_modules/
+
+# Logs & diagnostics
+logs/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Build / distribution / coverage
+dist/
+build/
+coverage/
+.temp/
+.temp*/
+
+# Media large intermediates
+*.mp4
+*.mov
+*.wav
+*.flac
+*.aac
+*.ogg
+*.webm
+*.zip
+*.7z
+*.bak
+
+# Script outputs
+scripts/output/
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Cache
+.cache/
+
+# CSV metrics raw exports (keep template only)
+metrics_raw_*.csv
+
+# Generated thumbnails
+thumbnails/
+
+# Ignore service worker build variants
+sw-*.js.map
+
+# Security
+bot/.env

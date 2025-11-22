@@ -1,4 +1,5 @@
 import tmi from 'tmi.js';
+import { getPlatformStatuses } from './liveWatcher.js';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -63,6 +64,16 @@ export function startTwitchBot() {
 
     if (command === 'ritual') {
       client.say(chan, 'O ritual ainda não foi decifrado. Fragmentos pendentes...');
+    }
+
+    if (command === 'plataformas') {
+      try {
+        const status = getPlatformStatuses();
+        const fmt = (p) => p.live ? 'AO VIVO' : 'offline';
+        client.say(chan, `Status -> Twitch: ${fmt(status.twitch)} | YouTube: ${fmt(status.youtube)} | Kick: ${fmt(status.kick)}`);
+      } catch (e) {
+        client.say(chan, 'Falha ao obter status multi-stream.');
+      }
     }
   });
 }

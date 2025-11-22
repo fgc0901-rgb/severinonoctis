@@ -232,4 +232,4 @@ Para evolução técnica futura dos bots, criar pasta `bot/` com Node.js + Disco
 Evolua os dados em `data/` sem quebrar chave existente. Expansões sugeridas: `progresso_estabilizacao`, `protocolos_pendentes`, `indice_residual`. Persistir consistência da estrutura.
 
 ---
-Estado atual: Estética militar vintage aplicada, dados modulados reescritos em tom operacional, JSON-LD adaptado a `Report`, GA4 placeholder inserido.
+Estado atual: Estética militar vintage aplicada, dados modulados reescritos em tom operacional, JSON-LD adaptado a `Report`, GA4 placeholder inserido, multi-stream watcher (Twitch/YouTube/Kick) e documentação `STREAMING_CONFIG.md` adicionados.

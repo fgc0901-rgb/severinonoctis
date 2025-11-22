@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, Partials } from 'discord.js';
+import { getPlatformStatuses } from './liveWatcher.js';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -68,6 +69,24 @@ export function startDiscordBot() {
       msg.reply({
         content: `🔴 Transmissão de Severino Noctis em breve / ativa: ${twitchLink}`
       });
+    }
+
+    if (command === 'plataformas') {
+      try {
+        const status = getPlatformStatuses();
+        const fmt = (p) => p.live ? 'AO VIVO' : 'offline';
+        const twitchUrl = process.env.TWITCH_LINK || `https://twitch.tv/${process.env.TWITCH_CHANNEL}`;
+        const ytUrl = status.youtube.stream ? `https://youtube.com/watch?v=${status.youtube.stream.title ? '' : ''}` : `https://youtube.com/channel/${process.env.YOUTUBE_CHANNEL_ID || ''}`;
+        const kickUrl = `https://kick.com/${process.env.KICK_CHANNEL_SLUG || ''}`;
+        msg.reply(
+          `Status Plataformas:\n` +
+          `• Twitch: ${fmt(status.twitch)} (${twitchUrl})\n` +
+          `• YouTube: ${fmt(status.youtube)}\n` +
+          `• Kick: ${fmt(status.kick)} (${kickUrl})`
+        );
+      } catch (e) {
+        msg.reply('Falha ao obter status multi-stream.');
+      }
     }
   });
 
