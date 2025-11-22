@@ -241,3 +241,6 @@ Evolua os dados em `data/` sem quebrar chave existente. Expansões sugeridas: `p
 
 ---
 Estado atual: Estética militar vintage aplicada, dados modulados reescritos em tom operacional, JSON-LD adaptado a `Report`, GA4 placeholder inserido, multi-stream watcher (Twitch/YouTube/Kick) e documentação `STREAMING_CONFIG.md` adicionados.
+
+## 18. Regras de Criadores
+Documento dedicado: `REGRAS_CRIADORES.md` (conduta, tags, pontuação e requisitos). Pontuação estruturada em `data/pontuacao.json` para futura automação.

@@ -75,7 +75,7 @@
 
   <main>
     <!-- História -->
-    <section id="historia" class="section">
+    <section id="historia" class="section page" data-page="historia" aria-hidden="false">
       <h2>Registro de Serviço</h2>
       <p id="historia-origem"></p>
       <p id="historia-ritual"></p>
@@ -83,7 +83,7 @@
     </section>
 
     <!-- Galeria -->
-    <section id="galeria" class="section">
+    <section id="galeria" class="section page" data-page="galeria" aria-hidden="true">
       <h2>Arquivo Fotográfico</h2>
       <div class="filters">
         <button class="btn active" data-filter="all">Todos</button>
@@ -113,7 +113,7 @@
     </section>
 
     <!-- Atualizações -->
-    <section id="atualizacoes" class="section" aria-labelledby="atualizacoes-titulo">
+    <section id="atualizacoes" class="section page" data-page="atualizacoes" aria-labelledby="atualizacoes-titulo" aria-hidden="true">
       <h2 id="atualizacoes-titulo">Atualizações</h2>
       <p class="updates-intro">Registro incremental de novos arquivos, imagens e textos liberados. Itens recentes aparecem no topo.</p>
       <div id="updates-list" class="updates-grid" aria-live="polite" aria-busy="false"></div>
@@ -121,7 +121,7 @@
     </section>
 
     <!-- Eventos -->
-    <section id="eventos" class="section">
+    <section id="eventos" class="section page" data-page="eventos" aria-hidden="true">
       <h2>Incidentes Classificados</h2>
       <p id="evento-queda"></p>
       <p id="evento-lua"></p>
@@ -129,13 +129,13 @@
     </section>
 
     <!-- Economia -->
-    <section id="economia" class="section">
+    <section id="economia" class="section page" data-page="economia" aria-hidden="true">
       <h2>Logística &amp; Suprimentos</h2>
       <canvas id="economiaChart" width="600" height="300"></canvas>
     </section>
 
     <!-- Lore -->
-    <section id="lore" class="section">
+    <section id="lore" class="section page" data-page="lore" aria-hidden="true">
       <h2>Avaliação Psicológica</h2>
       <article id="lore-conteudo"></article>
       <blockquote>“Estado mental indica resiliência adaptativa frente a privação existencial.”</blockquote>

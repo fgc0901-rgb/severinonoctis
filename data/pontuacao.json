@@ -1,0 +1,32 @@
+{
+  "lives": [
+    {"minHours": 2, "pontos": 2},
+    {"minHours": 4, "pontos": 4},
+    {"minHours": 6, "pontos": 6},
+    {"minHours": 8, "pontos": 8},
+    {"minHours": 10, "pontos": 10}
+  ],
+  "views": [
+    {"min": 0, "max": 99, "pontos": 2},
+    {"min": 100, "max": 349, "pontos": 4},
+    {"min": 350, "max": 499, "pontos": 6},
+    {"min": 500, "max": 799, "pontos": 8},
+    {"min": 800, "max": 999, "pontos": 10},
+    {"min": 1000, "max": null, "pontos": 12}
+  ],
+  "conteudoDiario": [
+    {"tipo": "video_tiktok", "pontos": 3, "limiteDia": 1},
+    {"tipo": "video_tiktok_editado_sem_marca", "pontos": 3, "limiteDia": 1},
+    {"tipo": "post_feed_instagram", "pontos": 3, "limiteDia": 1},
+    {"tipo": "reels_instagram", "pontos": 3, "limiteDia": 1},
+    {"tipo": "stories_instagram", "pontos": 3, "limiteDia": 1},
+    {"tipo": "shorts_youtube", "pontos": 3, "limiteDia": 1},
+    {"tipo": "raid_streamer_condado", "pontos": 5, "limiteDia": null},
+    {"tipo": "indicacao_allowlist", "pontos": 5, "limiteDia": null}
+  ],
+  "observacoes": [
+    "Visualizacoes de Shorts/Reels nao entram nas faixas de views principais.",
+    "LimiteDia = 1 indica pontuacao apenas uma vez por dia naquela categoria."
+  ],
+  "atualizadoEm": "2025-11-22"
+}

@@ -289,6 +289,8 @@ Promise.all([
       }).join('');
       updatesList.setAttribute('aria-busy','false');
       buildPagination();
+      // Mantém visão centrada sem necessidade de rolagem adicional
+      if(updatesList.scrollIntoView){ updatesList.scrollIntoView({block:'start'}); }
     }
 
     function buildPagination(){
@@ -323,11 +325,62 @@ if ('serviceWorker' in navigator) {
 // ===== TRANSIÇÃO DE PÁGINA =====
 const transitionMask = document.getElementById('pageTransition');
 if (transitionMask) {
-  document.querySelectorAll('.navbar a').forEach(link => {
-    link.addEventListener('click', () => {
-      transitionMask.classList.add('active');
-      setTimeout(() => transitionMask.classList.remove('active'), 400);
+  const pageLinks = document.querySelectorAll('.navbar a');
+  const pages = document.querySelectorAll('.page');
+  function activatePage(id){
+    pages.forEach(p => {
+      const active = p.id === id;
+      p.setAttribute('aria-hidden', active ? 'false':'true');
+      if(active){
+        p.classList.add('visible');
+        const heading = p.querySelector('h2, h1');
+        if(heading){ heading.setAttribute('tabindex','-1'); setTimeout(()=>heading.focus(),30); }
+      } else {
+        p.classList.remove('visible');
+      }
     });
+    pageLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+    // Atualiza indicador se disponível
+    const activeLink = [...pageLinks].find(a=>a.classList.contains('active'));
+    if(activeLink){ setIndicator(activeLink); }
+  }
+  pageLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href').slice(1);
+      if(document.getElementById(targetId)){
+        e.preventDefault();
+        transitionMask.classList.add('active');
+        setTimeout(() => {
+          transitionMask.classList.remove('active');
+          activatePage(targetId);
+          // Atualiza URL sem scroll
+          history.pushState({page:targetId}, '', '#'+targetId);
+        }, 300);
+      }
+    });
+  });
+  // Ativa página inicial baseada em hash
+  const initial = location.hash ? location.hash.slice(1) : 'historia';
+  if(!document.getElementById(initial)) {
+    history.replaceState({page:'historia'}, '', '#historia');
+    activatePage('historia');
+  } else {
+    history.replaceState({page:initial}, '', '#'+initial);
+    activatePage(initial);
+  }
+
+  // Navegação pelo botão voltar/avançar
+  window.addEventListener('popstate', (e) => {
+    const target = (e.state && e.state.page) ? e.state.page : (location.hash ? location.hash.slice(1) : 'historia');
+    if(document.getElementById(target)) {
+      activatePage(target);
+    }
+  });
+
+  // Caso hash mude por manipulação externa
+  window.addEventListener('hashchange', () => {
+    const h = location.hash.slice(1);
+    if(document.getElementById(h)) activatePage(h);
   });
 }
 
