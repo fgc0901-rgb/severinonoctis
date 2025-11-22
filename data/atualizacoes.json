@@ -1,0 +1,28 @@
+{
+  "lista": [
+    {
+      "id": "img-simbolo-variacao",
+      "tipo": "imagem",
+      "titulo": "Nova variação do símbolo militar",
+      "data": "2025-11-22T09:00:00Z",
+      "descricao": "Versão com textura granular aplicada para próxima leva de thumbnails.",
+      "url": "imagens/simbolo.png"
+    },
+    {
+      "id": "doc-protocolo-a1",
+      "tipo": "arquivo",
+      "titulo": "Fragmento de Protocolo A1",
+      "data": "2025-11-21T18:30:00Z",
+      "descricao": "Trecho inicial descrevendo condicionantes pré-rituais.",
+      "url": "versões em txt para IA/script.txt"
+    },
+    {
+      "id": "texto-lore-expansao",
+      "tipo": "texto",
+      "titulo": "Expansão de lore: Estabilização Incompleta",
+      "data": "2025-11-20T14:10:00Z",
+      "descricao": "Adicionada nota sobre tensão neurofisiológica e busca de estabilização em personagem.json.",
+      "url": "data/personagem.json"
+    }
+  ]
+}

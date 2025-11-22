@@ -12,7 +12,7 @@ window.addEventListener('scroll', () => {
     const y = window.scrollY * 0.3;
     hero.style.backgroundPosition = `center calc(50% + ${y}px)`;
   }
-});
+}, { passive: true });
 
 // ===== INDICADOR DE NAVEGAÇÃO =====
 const nav = document.querySelector('.navbar');
@@ -29,9 +29,16 @@ function setIndicator(el) {
 
 if (links.length > 0) {
   links.forEach(a => a.addEventListener('mouseenter', () => setIndicator(a)));
+  let resizeScheduled = false;
   window.addEventListener('resize', () => {
-    const active = document.querySelector('.navbar a.active') || links[0];
-    setIndicator(active);
+    if (!resizeScheduled) {
+      resizeScheduled = true;
+      requestAnimationFrame(() => {
+        const active = document.querySelector('.navbar a.active') || links[0];
+        setIndicator(active);
+        resizeScheduled = false;
+      });
+    }
   });
   // Inicializa o indicador
   setIndicator(links[0]);
@@ -177,6 +184,8 @@ if (canvas) {
     });
   }
 
+  let particleFrame;
+  let running = true;
   function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = palette.base;
@@ -190,9 +199,20 @@ if (canvas) {
         d.x = Math.random() * canvas.width;
       }
     });
-    requestAnimationFrame(animateParticles);
+    if (running) particleFrame = requestAnimationFrame(animateParticles);
   }
   animateParticles();
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      running = false;
+      if (particleFrame) cancelAnimationFrame(particleFrame);
+    } else {
+      if (!running) {
+        running = true;
+        animateParticles();
+      }
+    }
+  });
 
   // Redimensiona canvas
   window.addEventListener('resize', () => {
@@ -205,8 +225,9 @@ if (canvas) {
 Promise.all([
   fetch('data/personagem.json').then(r => r.json()),
   fetch('data/eventos.json').then(r => r.json()),
-  fetch('data/itens.json').then(r => r.json()).catch(()=>({itens:[]}))
-]).then(([personagem, eventos, itens]) => {
+  fetch('data/itens.json').then(r => r.json()).catch(()=>({itens:[]})),
+  fetch('data/atualizacoes.json').then(r => r.json()).catch(()=>({lista:[]}))
+]).then(([personagem, eventos, itens, atualizacoes]) => {
   // História
   const historiaOrigem = document.getElementById('historia-origem');
   const historiaRitual = document.getElementById('historia-ritual');
@@ -240,6 +261,55 @@ Promise.all([
         </ul>
       </details>
     `;
+  }
+
+  // Atualizações
+  const updatesList = document.getElementById('updates-list');
+  const updatesPagination = document.getElementById('updates-pagination');
+  if (updatesList && atualizacoes && Array.isArray(atualizacoes.lista)) {
+    const sorted = [...atualizacoes.lista].sort((a,b)=> new Date(b.data) - new Date(a.data));
+    const pageSize = 6;
+    let currentPage = 1;
+    const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize));
+
+    function renderPage(page){
+      updatesList.setAttribute('aria-busy','true');
+      currentPage = page;
+      const start = (page-1)*pageSize;
+      const slice = sorted.slice(start, start+pageSize);
+      updatesList.innerHTML = slice.map(u => {
+        const icon = u.tipo === 'imagem' ? '🖼️' : (u.tipo === 'arquivo' ? '📁' : '📝');
+        const dateFmt = new Date(u.data).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+        const link = u.url ? `<a href="${u.url}" target="_blank" rel="noopener" class="upd-link" aria-label="Abrir ${u.titulo}">Abrir</a>` : '';
+        return `<article class="update-card" data-tipo="${u.tipo}">
+          <header class="update-head"><span class="update-icon" aria-hidden="true">${icon}</span><h3 class="update-title">${u.titulo}</h3></header>
+          <p class="update-desc">${u.descricao}</p>
+          <footer class="update-meta"><time datetime="${u.data}">${dateFmt}</time>${link}</footer>
+        </article>`;
+      }).join('');
+      updatesList.setAttribute('aria-busy','false');
+      buildPagination();
+    }
+
+    function buildPagination(){
+      if(!updatesPagination) return;
+      updatesPagination.innerHTML = '';
+      if(totalPages <= 1){ updatesPagination.style.display='none'; return; } else { updatesPagination.style.display='flex'; }
+      const prevBtn = document.createElement('button');
+      prevBtn.type='button'; prevBtn.className='page-btn'; prevBtn.textContent='«'; prevBtn.disabled = currentPage===1; prevBtn.setAttribute('aria-label','Página anterior');
+      prevBtn.onclick=()=>renderPage(currentPage-1);
+      updatesPagination.appendChild(prevBtn);
+      for(let i=1;i<=totalPages;i++){
+        const b=document.createElement('button'); b.type='button'; b.className='page-btn'; b.textContent=i; b.onclick=()=>renderPage(i);
+        if(i===currentPage){ b.classList.add('active'); b.setAttribute('aria-current','page'); }
+        updatesPagination.appendChild(b);
+      }
+      const nextBtn = document.createElement('button');
+      nextBtn.type='button'; nextBtn.className='page-btn'; nextBtn.textContent='»'; nextBtn.disabled = currentPage===totalPages; nextBtn.setAttribute('aria-label','Próxima página');
+      nextBtn.onclick=()=>renderPage(currentPage+1);
+      updatesPagination.appendChild(nextBtn);
+    }
+    renderPage(1);
   }
 }).catch(err => console.error('Erro ao carregar dados modularizados:', err));
 

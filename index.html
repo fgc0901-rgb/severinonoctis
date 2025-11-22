@@ -50,11 +50,12 @@
   </script>
 </head>
 <body>
+  <a href="#historia" class="skip-link">Pular para conteúdo</a>
   <!-- Hero -->
   <header class="hero" id="topo">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <img src="imagens/simbolo.png" alt="Selo Militar de Severino" class="logo">
+      <img src="imagens/simbolo.png" alt="Selo Militar de Severino" class="logo" width="140" height="140" decoding="async">
       <h1>Dossiê Militar: Severino Noctis</h1>
       <p class="subtitle">Classificação: Reservado – Acesso Controlado</p>
       <a href="#historia" class="cta">Abrir Registro</a>
@@ -63,6 +64,7 @@
       <ul>
         <li><a href="#historia">Registro de Serviço</a></li>
         <li><a href="#galeria">Arquivo Fotográfico</a></li>
+        <li><a href="#atualizacoes">Atualizações</a></li>
         <li><a href="#eventos">Incidentes Classificados</a></li>
         <li><a href="#economia">Logística &amp; Suprimentos</a></li>
         <li><a href="#lore">Avaliação Psicológica</a></li>
@@ -91,15 +93,15 @@
       </div>
       <div class="grid-galeria">
         <figure class="item" data-cat="noctis">
-          <img src="imagens/noctis1.jpg" alt="Noctis I" loading="lazy"/>
+          <img src="imagens/noctis1.jpg" alt="Noctis I" loading="lazy" decoding="async" width="300" height="300" />
           <figcaption>O Último Eco</figcaption>
         </figure>
         <figure class="item" data-cat="lua">
-          <img src="imagens/lua.jpg" alt="Lua Sangrenta" loading="lazy"/>
+          <img src="imagens/lua.jpg" alt="Lua Sangrenta" loading="lazy" decoding="async" width="300" height="300" />
           <figcaption>Lua Sangrenta</figcaption>
         </figure>
         <figure class="item" data-cat="ritual">
-          <img src="imagens/ritual.jpg" alt="Ritual Escarlate" loading="lazy"/>
+          <img src="imagens/ritual.jpg" alt="Ritual Escarlate" loading="lazy" decoding="async" width="300" height="300" />
           <figcaption>Ritual Escarlate</figcaption>
         </figure>
       </div>
@@ -108,6 +110,14 @@
         <img class="lightbox-img" alt="" aria-live="polite">
         <p class="lightbox-caption" aria-live="polite"></p>
       </div>
+    </section>
+
+    <!-- Atualizações -->
+    <section id="atualizacoes" class="section" aria-labelledby="atualizacoes-titulo">
+      <h2 id="atualizacoes-titulo">Atualizações</h2>
+      <p class="updates-intro">Registro incremental de novos arquivos, imagens e textos liberados. Itens recentes aparecem no topo.</p>
+      <div id="updates-list" class="updates-grid" aria-live="polite" aria-busy="false"></div>
+      <div id="updates-pagination" class="updates-pagination" aria-label="Paginação de atualizações" aria-live="polite"></div>
     </section>
 
     <!-- Eventos -->
@@ -149,6 +159,6 @@
   </div>
   <div class="page-transition" id="pageTransition"></div>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

@@ -109,6 +109,14 @@ Backlog de scripts:
 - Criar `rituais.json` para aprofundar trilha de metamorfose.
 - Implementar página secundária: `/cronologia.html` com timeline interativa.
 
+### Princípios de UX Aplicados (Atualização)
+- Mobile-first: estilos base simplificados e media query apenas para ampliar layout.
+- Minimalismo: redução de texturas e sombras intensas, foco em tipografia e hierarquia clara.
+- Psicologia das Cores: verde profundo (estabilidade/confiabilidade) e marrom quente (narrativa/humano) equilibram emoção e segurança.
+- Layout em F: títulos e parágrafos alinhados à esquerda, largura moderada melhora varredura inicial de conteúdo.
+- Performance: `defer` no script, atributos `width/height/decoding` em imagens para reduzir CLS, listener `passive` e pausa de partículas em background.
+- Acessibilidade: skip link, foco visível, redução de movimento para usuários com preferência.
+
 ## 12. Comandos Úteis (Windows PowerShell)
 ```powershell
 # Servir localmente com Python simples (alternativa ao Live Server)
