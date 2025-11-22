@@ -1,23 +1,23 @@
 {
   "identidade": {
     "nome": "Severino Noctis",
-    "alcunhas": ["O Último Eco","O Errante da Lua Sangrenta","O Condenado do Sangue"],
-    "natureza": "Sobrevivente marcado pela Magia Obscura; humano incompleto, atraído pela noite e pela fome ancestral"
+    "alcunhas": ["Operador Eco","Registro Alfa Incompleto","Vigilante Noturno"],
+    "natureza": "Ativo classificado; indivíduo em acompanhamento devido a incompletude fisiopsicológica e alta capacidade adaptativa noturna"
   },
   "linhagem": {
-    "heranca": "Remanescente das sociedades que estudaram fragmentos da Magia Obscura das Bruxas de Noctum",
-    "queda": "Testemunha da destruição dos Escarlates na Lua Sangrenta",
-    "marca": "Cicatrizes místicas do ritual falho — nem humano pleno, nem criatura da noite"
+    "heranca": "Remanescente de células experimentais pré-dissolução; conhecimento fragmentado de protocolos arcano-biológicos",
+    "queda": "Testemunha ocular de Colapso Escarlate (operações descontinuadas)",
+    "marca": "Marcas residuais de procedimento incompleto — estado híbrido não padronizado"
   },
   "desejo": {
-    "obsessao": "Tornar-se vampiro para completar a transformação negada na Lua Sangrenta",
-    "motivo": "Romper a incompletude; substituir condenação por pertencimento à noite"
+    "obsessao": "Completar ciclo de estabilização estrutural (metamorfose negada)",
+    "motivo": "Reduzir risco de colapso interno e consolidar identidade operacional"
   },
   "poderes": [
-    {"id":"eco_do_sangue","descricao":"Sensibilidade a rituais e fluxos de poder ligados a sacrifícios"},
-    {"id":"conducao_imperfeita","descricao":"Ativa fragmentos de magia de sangue com exaustão subsequente"},
-    {"id":"pressagio","descricao":"Sua presença antecede rumores de antigos rituais"}
+    {"id":"sensibilidade_residual","descricao":"Detecção elevada de padrões energéticos anômalos em perímetros ritualizados"},
+    {"id":"ativacao_fragmentaria","descricao":"Capacidade de catalisar fragmentos de protocolos sanguíneos com desgaste físico acelerado"},
+    {"id":"pre_sinal","descricao":"Presença correlacionada a surgimento de resíduos informacionais pré-evento"}
   ],
-  "fraquezas": ["Exaustão mágica pós-ritual","Vulnerabilidade espiritual","Atração compulsiva por relíquias de sangue"],
-  "estado": {"fase":"Incompleto","tensao":"Busca metamorfose sem colapso ritual"}
+  "fraquezas": ["Desgaste pós-catalisação","Instabilidade neurofisiológica","Atração compulsiva por artefatos hemo-residuais"],
+  "estado": {"fase":"Incompleto","tensao":"Busca estabilização sem disparar falha sistêmica"}
 }

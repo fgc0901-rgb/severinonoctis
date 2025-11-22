@@ -1,6 +1,6 @@
-# Codex de Severino Noctis
+# Dossiê Militar: Severino Noctis
 
-Grimório transmídia sobre Severino Noctis: sua linhagem marcada, ecos rituais, busca pela metamorfose vampírica e expansão de lore em múltiplas plataformas (YouTube, Twitch/Kick, TikTok e Web).
+Relatório transmídia classificado sobre Severino Noctis: registro de serviço, incidentes classificados, avaliação psicológica, logística & suprimentos e expansão narrativa operacional em múltiplas plataformas (YouTube, Twitch/Kick, TikTok e Web).
 
 ## 1. Estrutura do Projeto
 ```
@@ -17,17 +17,17 @@ data/               # Módulos de lore
   itens.json
 ```
 
-## 2. Identidade Visual
-- Paleta: Sangue `#b22222`, Arcano `#4b0082`, Cinza `#c0c0c0`, Fundo `#0a0a0a`.
-- Tipografia: Títulos "Cinzel Decorative"; Corpo "Georgia"; Alternativa futura: "Inter" para overlays.
-- Logo: Versões (detalhada, simplificada, monocromática). Salvar em `imagens/`.
-- Banner OG: Criar `og-banner.jpg` (1200x630) com símbolo + lua sangrenta.
+## 2. Identidade Visual (Atualizada)
+- Paleta parchment militar: Papel `#f2e6cf`, Oliva `#556b2f`, Couro `#7c4f2b`, Acento escuro `#3d4c1f`.
+- Tipografia: Títulos "Playfair Display"; Corpo "Merriweather"; Elementos mecanografados "Special Elite".
+- Estética: Documento arquivado / carimbos de classificação / texturas sutis.
+- Banner OG: `og-banner.jpg` (1200x630) com selo + faixa "Dossiê Militar".
 
-## 3. Modularização de Lore
-- `personagem.json`: identidade, linhagem, desejo, poderes e fraquezas.
-- `eventos.json`: lista temporal de eventos (id, título, época, descrição).
-- `itens.json`: artefatos e relíquias com simbolismo.
-- Extensões futuras: `rituais.json`, `fragmentos.json`.
+## 3. Modularização de Dados
+- `personagem.json`: identidade operacional, linhagem (herança / queda / marca), estado e capacidades.
+- `eventos.json`: incidentes classificados (id, título, época, descrição analítica).
+- `itens.json`: artefatos catalogados (sensor, ferramenta, barreira) com simbolismo funcional.
+- Extensões futuras: `protocolos.json`, `residuos.json`.
 
 ## 4. SEO & Metadados
 Incluídos: meta description, Open Graph, Twitter Card, canonical, JSON-LD. Atualizar valor de `canonical` para domínio real quando registrado.
@@ -36,15 +36,55 @@ Incluídos: meta description, Open Graph, Twitter Card, canonical, JSON-LD. Atua
 - Manifest e Service Worker simples de cache estático.
 - Para testar offline: abrir DevTools > Application > Service Workers.
 
-## 6. Pipeline de Conteúdo (Resumo)
-1. Gravação em alta qualidade.
-2. Edição (template de lower thirds + símbolo pulsante).
-3. Extração automática de clipes (FFmpeg + Whisper ou ferramenta SaaS).
-4. Distribuição:
-   - YouTube: 1 vídeo longo semanal + 3 Shorts.
-   - Twitch/Kick: Lives temáticas (Leitura do Grimório / Laboratório Ritualístico / Caça a Relíquias).
-   - TikTok: Micro-lore e teasers de transformação.
-5. Reciclagem e análise semanal de métricas.
+## 6. Estratégia Multicanal
+| Canal | Formato | Frequência | Objetivo |
+|-------|---------|-----------|----------|
+| YouTube Longo | Episódio "Relatório de Campo" (8–12 min) | 1x/sem | Profundidade narrativa |
+| YouTube Shorts | Micro-incidente / símbolo decodificado | 3x/sem | Descoberta / CTR |
+| Twitch/Kick | Live Operacional (análise fragmentos / simulação ritual / Q&A) | 2–3x/sem | Comunidade / watch time |
+| TikTok | Clip vertical (30–45s) com legenda forte + call to Discord | 4–5x/sem | Alcance / funil |
+| Discord | Drops, enquetes, resumos pós-live | Diário | Retenção / pertencimento |
+
+Pilares narrativos: (1) Incompletude / estabilização; (2) Incidentes históricos; (3) Artefatos funcionais; (4) Avaliação psicológica progressiva; (5) Colapso Escarlate.
+
+Calendário simplificado:
+- Seg: Short símbolo / Teaser live.
+- Ter: TikTok incidente + Enquete Discord.
+- Qua: Live (Análise fragmentos).
+- Qui: Short + TikTok estado psicológico.
+- Sex: Episódio Longo (Relatório de Campo) + Post resumo.
+- Sáb: Live Operacional / Teste de ferramenta.
+- Dom: Compilado semanal (Discord) + planejamento próximo sprint.
+
+KPIs iniciais: Retenção YouTube (50% aos 60% do vídeo), Média live > 10 espectadores sustentados, Taxa clique Discord > 8%, Conversão TikTok->YouTube (>5%).
+
+## 7. Pipeline de Mídia & Automação
+Fases:
+1. Captura: OBS perfil com cenas (Documento / Análise / Ritual / Encerramento).
+2. Edição: Template DaVinci/Premiere com lower third "CLASSIFICADO" e LUT sepia suave.
+3. Extração automática: Script FFmpeg corta segmentos por marcador de cena; Whisper transcreve e gera legendas SRT.
+4. Geração Shorts: Script Node recorta trechos com palavras-chave (ex: "colapso", "resíduo", "marcador") e aplica moldura vertical.
+5. Publicação: CLI (YouTube API + Twitch schedule) — cron job PowerShell local ou GitHub Actions.
+6. Clipping discord: Bot lê novos uploads via RSS e publica embed padronizado.
+
+Automação exemplos (pseudo):
+`ffmpeg -i live.mp4 -filter:v "crop=iw:ih*0.8" clipped.mp4`
+`whisper live.mp4 --language pt --output_dir transcricao/`
+
+Backlog de scripts:
+- Extrator vertical automático.
+- Normalizador de áudio (sox / ffmpeg loudnorm).
+- Gerador de thumbnails (node-canvas + template base).
+
+## 8. Configuração de Analytics
+- GA4: placeholder adicionado em `index.html` (substituir G-XXXXXXX).
+- YouTube: monitorar retenção, CTR título + thumb, origem de tráfego.
+- Twitch/Kick: watch time médio por bloco (início / pico / final), taxa de chat por minuto.
+- TikTok: média visualizações nas últimas 10 peças, taxa de conclusão (>60%).
+- Dashboard unificado: Planilha ou Notion — colunas (Data | Conteúdo | Canal | Visualizações | Retenção | Cliques Discord | Novos membros).
+- Futuro: Export API YouTube + Helix + TikTok (via terceiros) para consolidação automática.
+
+## 9. Comunidade & Engajamento
 
 ## 7. Analytics (Planejar)
 - GA4 para tráfego do site.
@@ -58,18 +98,18 @@ Incluídos: meta description, Open Graph, Twitter Card, canonical, JSON-LD. Atua
 - Progressão de roles: Mortal → Marcado → Errante → Eco → Sangue Completo.
 - Bots: anúncios de live, novo vídeo, drops simbólicos (XP / relíquias).
 
-## 9. Monetização (Fases)
+## 10. Monetização (Fases)
 - Crescimento: Foco em retenção narrativa.
 - Conversão: Apoia.se/Patreon (tiers: Marcado, Errante, Eco, Sangue).
 - Expansão: Merch (grimório parcial, arte impressa, amuleto lunar), biblioteca sonora.
 
-## 10. Próximos Passos Técnicos
+## 11. Próximos Passos Técnicos
 - Adicionar acessibilidade: aria-label em botões de filtro e lightbox (ex: `aria-modal="true"`).
 - Converter imagens para WebP (otimização) + fallback.
 - Criar `rituais.json` para aprofundar trilha de metamorfose.
 - Implementar página secundária: `/cronologia.html` com timeline interativa.
 
-## 11. Comandos Úteis (Windows PowerShell)
+## 12. Comandos Úteis (Windows PowerShell)
 ```powershell
 # Servir localmente com Python simples (alternativa ao Live Server)
 python -m http.server 5500
@@ -78,18 +118,20 @@ python -m http.server 5500
 # cwebp input.png -o output.webp
 ```
 
-## 12. Licenciamento & Proteção
-- Registrar domínio e nome.
-- Centralizar artes originais datadas.
-- Guardar versões brutas dos arquivos visuais (prova de criação).
+## 13. Proteção & Marca
+- Registrar domínio (bobbunitinho.com) e variantes próximos.
+- Verificar marca nominativa "Severino Noctis" (INPI) + logotipo estilizado.
+- Arquivar evidências de criação (arte, áudio, texto) com data (repositório privado + hash SHA256).
+- Monitoramento de uso indevido: alertas Google + pesquisa trimestral.
+- DMCA: template pronto para acionamento rápido.
 
-## 13. Estrutura de Expansão Futuras (Esboço API Local)
+## 14. Estrutura de Expansão Futuras (Esboço API Local)
 GET /api/personagem -> personagem.json
 GET /api/eventos -> eventos.json
 GET /api/itens -> itens.json
 GET /api/rituais -> rituais.json (futuro)
 
-## 14. Checklist Rápido
+## 15. Checklist Rápido
 - [ ] Adicionar og-banner.jpg
 - [ ] Criar favicon dedicado (32x32)
 - [ ] Converter imagens para WebP
@@ -99,7 +141,7 @@ GET /api/rituais -> rituais.json (futuro)
  - [ ] Verificar handle YouTube @bobbunitinho
  - [ ] Verificar Twitch bobbunitinhu
 
-## 15. Comunidade
+## 16. Comunidade
 ### Estrutura Discord
 - Canais:
   - `#eco-do-sangue` (chat geral atmosférico)
@@ -138,7 +180,7 @@ GET /api/rituais -> rituais.json (futuro)
 - % usuários que evoluem de Mortal -> Errante em 30 dias.
 - Fanarts / semana.
 
-## 16. Monetização
+## 17. Monetização
 ### Fases
 1. Consolidação (0–90 dias): foco em crescimento orgânico e identidade.
 2. Ativação (90–180 dias): introdução leve de tiers + recompensas digitais.
@@ -187,4 +229,7 @@ Descoberta (Short / TikTok) -> Live envolvente (Twitch bobbunitinhu) -> Discord 
 Para evolução técnica futura dos bots, criar pasta `bot/` com Node.js + Discord.js e endpoints internos reutilizando JSON em `data/`. Solicite quando quiser iniciar implementação.
 
 ---
-Evolua os dados em `data/` sem quebrar chave existente. Expanda com novos campos como `progresso`, `rituais_pendentes`, `eco_atual`. Boa jornada na Lua Sangrenta.
+Evolua os dados em `data/` sem quebrar chave existente. Expansões sugeridas: `progresso_estabilizacao`, `protocolos_pendentes`, `indice_residual`. Persistir consistência da estrutura.
+
+---
+Estado atual: Estética militar vintage aplicada, dados modulados reescritos em tom operacional, JSON-LD adaptado a `Report`, GA4 placeholder inserido.

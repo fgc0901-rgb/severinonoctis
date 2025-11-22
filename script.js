@@ -1,8 +1,8 @@
-// ===== PALETA =====
+// ===== PALETA (Ajustada para estética militar vintage) =====
 const palette = {
-  base: '#b22222',
-  accent: '#4b0082',
-  faint: '#c0c0c0'
+  base: '#556b2f', // oliva principal
+  accent: '#7c4f2b', // couro/rust
+  faint: '#c3b094'  // tom papel envelhecido
 };
 
 // ===== PARALLAX NO HERO =====
@@ -179,7 +179,7 @@ if (canvas) {
 
   function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#b22222';
+    ctx.fillStyle = palette.base;
     drops.forEach(d => {
       ctx.beginPath();
       ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);

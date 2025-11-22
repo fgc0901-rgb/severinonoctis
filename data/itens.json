@@ -1,8 +1,8 @@
 {
   "itens": [
-    {"nome":"Relicário de Cicatrizes","tipo":"Relíquia","simbolismo":"Reage a luas e sangue derramado indicando pulsos de magia"},
-    {"nome":"Pergaminho Fragmentado","tipo":"Liturgia","simbolismo":"Restaura lacunas do ritual falho quando combinado a símbolos perdidos"},
-    {"nome":"Lâmina de Hematita","tipo":"Catalisador","simbolismo":"Canaliza energia sanguínea com risco de instabilidade"},
-    {"nome":"Sal Negro Marcado","tipo":"Resíduo Ritual","simbolismo":"Protege parcialmente contra drenagem espiritual"}
+    {"nome":"Relicário Residual","tipo":"Sensor","simbolismo":"Oscila sob exposição lunar classe vermelha indicando variação energética"},
+    {"nome":"Documento Fragmentado","tipo":"Arquivo","simbolismo":"Contém instruções parciais de protocolo abortado; necessita recomposição"},
+    {"nome":"Lâmina Hemática","tipo":"Ferramenta","simbolismo":"Focaliza fluxo hemo-catalítico com risco de saturação tissular"},
+    {"nome":"Sal Negro Codificado","tipo":"Barreira","simbolismo":"Reduz penetração de drenagem psico-energética em perímetros"}
   ]
 }
