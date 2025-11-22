@@ -5,7 +5,7 @@ const ASSETS = [
   'style.css',
   'script.js',
   'manifest.json',
-  'imagens/simbolo.png',
+  // Imagens e áudio faltantes removidos do pré-cache para evitar falha de install
   'data/personagem.json',
   'data/eventos.json',
   'data/itens.json',
@@ -13,8 +13,8 @@ const ASSETS = [
   'imagens/rdr2/rdr2.json'
 ];
 
-// Lista de extensões alvo para cache runtime (RDR2 capturas)
-const RDR2_RUNTIME_EXT = ['.webp', '.jpg', '.png'];
+// Lista de extensões alvo para cache runtime (capturas + imagens gerais)
+const RDR2_RUNTIME_EXT = ['.webp', '.jpg', '.jpeg', '.png'];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
@@ -43,7 +43,7 @@ self.addEventListener('fetch', (e) => {
     return;
   }
   // Runtime caching para imagens RDR2
-  const isRdr2Image = url.pathname.startsWith('/imagens/rdr2/') && RDR2_RUNTIME_EXT.some(ext => url.pathname.endsWith(ext));
+  const isRdr2Image = url.pathname.startsWith('/imagens/rdr2/') && RDR2_RUNTIME_EXT.some(ext => url.pathname.toLowerCase().endsWith(ext));
   if (isRdr2Image) {
     e.respondWith(
       caches.open(CACHE_NAME).then(cache => 

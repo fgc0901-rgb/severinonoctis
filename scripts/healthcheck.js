@@ -20,9 +20,10 @@ for (let i = 2; i < argv.length; i++) {
 }
 
 const domain = args.domain || process.env.HEALTH_DOMAIN;
+const tryHttp = args.http || process.env.HEALTH_HTTP_FALLBACK; // "true" para testar http
 const apiBase = args.api || process.env.HEALTH_API_BASE; // e.g. http://localhost:3080
 const timeoutMs = Number(args.timeout || 8000);
-const assetList = (args.assets ? args.assets.split(',') : ['style.css', 'script.js', 'manifest.json', 'imagens/simbolo.png']);
+const assetList = (args.assets ? args.assets.split(',') : ['style.css', 'script.js', 'manifest.json']);
 
 if (!domain) {
   console.error('Missing --domain or HEALTH_DOMAIN');
@@ -69,8 +70,20 @@ async function dnsResolve(host) {
   results.checks.push({ name: 'dns', host: domain, ok: dnsInfo.ok, addresses: dnsInfo.addresses, error: dnsInfo.error });
 
   // Página raiz
-  const rootUrl = `https://${domain}/`;
-  const rootRes = await fetchTimeout(rootUrl, timeoutMs);
+  const primaryUrl = `https://${domain}/`;
+  let rootUrl = primaryUrl;
+  let rootRes = await fetchTimeout(primaryUrl, timeoutMs);
+  if((rootRes.timeout || !(rootRes.r && rootRes.r.ok)) && tryHttp){
+    const altUrl = `http://${domain}/`;
+    const altRes = await fetchTimeout(altUrl, timeoutMs);
+    if(altRes.r && altRes.r.ok){
+      rootUrl = altUrl;
+      rootRes = altRes;
+      results.protocolFallback = 'http';
+    } else {
+      results.protocolFallback = 'none';
+    }
+  }
   if (rootRes.timeout || !rootRes.r.ok) {
     results.ok = false;
     results.checks.push({ name: 'root', url: rootUrl, status: rootRes.timeout ? 'timeout' : rootRes.r.status, ok: false, timeMs: rootRes.ms });
@@ -117,6 +130,7 @@ async function dnsResolve(host) {
     rootOk: !!results.checks.find(c => c.name === 'root' && c.ok),
     missingAssets: results.checks.filter(c => c.name === 'asset' && !c.ok).map(c => c.asset)
   };
+  if(results.protocolFallback){ results.summary.protocolUsed = results.protocolFallback === 'http' ? 'http' : 'https'; }
 
   console.log(JSON.stringify(results, null, 2));
   if (!results.ok) process.exit(1);

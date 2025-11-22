@@ -19,7 +19,8 @@
   <meta name="twitter:image" content="imagens/og-banner.jpg">
   <!-- Manifest & Favicon -->
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="imagens/simbolo.png">
+  <!-- Fallback favicon inline (imagem original ausente) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect width='64' height='64' fill='%23556b2f'/><text x='32' y='40' font-size='32' text-anchor='middle' fill='%23c3b094'>S</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Georgia&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <meta name="theme-color" content="#0a0a0a">
@@ -55,7 +56,8 @@
   <header class="hero" id="topo">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <img src="imagens/simbolo.png" alt="Selo Militar de Severino" class="logo" width="140" height="140" decoding="async">
+      <!-- Placeholder logo inline (arquivo simbolo.png ausente) -->
+      <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><rect width='140' height='140' fill='%23556b2f'/><text x='70' y='80' font-size='60' text-anchor='middle' fill='%23c3b094'>S</text></svg>" alt="Selo Militar de Severino (placeholder)" class="logo" width="140" height="140" decoding="async">
       <h1>Dossiê Militar: Severino Noctis</h1>
       <p class="subtitle">Classificação: Reservado – Acesso Controlado</p>
       <a href="#historia" class="cta">Abrir Registro</a>
@@ -95,15 +97,15 @@
       </div>
       <div class="grid-galeria">
         <figure class="item" data-cat="noctis">
-          <img src="imagens/noctis1.jpg" alt="Noctis I" loading="lazy" decoding="async" width="300" height="300" />
+          <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='300' height='300' fill='%23556b2f'/><text x='150' y='170' font-size='48' text-anchor='middle' fill='%23c3b094'>Img</text></svg>" alt="Noctis I (imagem ausente)" loading="lazy" decoding="async" width="300" height="300" />
           <figcaption>O Último Eco</figcaption>
         </figure>
         <figure class="item" data-cat="lua">
-          <img src="imagens/lua.jpg" alt="Lua Sangrenta" loading="lazy" decoding="async" width="300" height="300" />
+          <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='300' height='300' fill='%237c4f2b'/><text x='150' y='170' font-size='40' text-anchor='middle' fill='%23c3b094'>Lua</text></svg>" alt="Lua Sangrenta (imagem ausente)" loading="lazy" decoding="async" width="300" height="300" />
           <figcaption>Lua Sangrenta</figcaption>
         </figure>
         <figure class="item" data-cat="ritual">
-          <img src="imagens/ritual.jpg" alt="Ritual Escarlate" loading="lazy" decoding="async" width="300" height="300" />
+          <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='300' height='300' fill='%23c3b094'/><text x='150' y='170' font-size='40' text-anchor='middle' fill='%23556b2f'>Ritual</text></svg>" alt="Ritual Escarlate (imagem ausente)" loading="lazy" decoding="async" width="300" height="300" />
           <figcaption>Ritual Escarlate</figcaption>
         </figure>
       </div>
@@ -209,9 +211,7 @@
   </footer>
 
   <canvas id="particles"></canvas>
-  <audio id="ambiente" loop>
-    <source src="sons/ambiente.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Áudio ambiente removido (arquivo sons/ambiente.mp3 ausente). Adicionar posteriormente se necessário. -->
   <div class="audio-controls">
     <button class="audio-toggle" id="audioToggle" title="Controlar áudio" aria-label="Alternar áudio ambiente">🔊</button>
       <button class="bg-toggle" id="bgToggle" title="Alternar plano de fundo" aria-label="Alternar plano de fundo RDR2">🖼️</button>
