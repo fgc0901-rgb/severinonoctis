@@ -202,39 +202,53 @@ if (canvas) {
 }
 
 // ===== CARREGAR DADOS DO JSON =====
-fetch('dados.json')
-  .then(r => r.json())
-  .then(data => {
-    // História
-    const historiaOrigem = document.getElementById('historia-origem');
-    const historiaRitual = document.getElementById('historia-ritual');
-    const historiaErrancia = document.getElementById('historia-errancia');
-    
-    if (historiaOrigem) historiaOrigem.textContent = data.linhagem.heranca;
-    if (historiaRitual) historiaRitual.textContent = data.linhagem.marca;
-    if (historiaErrancia) historiaErrancia.textContent = data.linhagem.queda;
+Promise.all([
+  fetch('data/personagem.json').then(r => r.json()),
+  fetch('data/eventos.json').then(r => r.json()),
+  fetch('data/itens.json').then(r => r.json()).catch(()=>({itens:[]}))
+]).then(([personagem, eventos, itens]) => {
+  // História
+  const historiaOrigem = document.getElementById('historia-origem');
+  const historiaRitual = document.getElementById('historia-ritual');
+  const historiaErrancia = document.getElementById('historia-errancia');
+  if (historiaOrigem) historiaOrigem.textContent = personagem.linhagem.heranca;
+  if (historiaRitual) historiaRitual.textContent = personagem.linhagem.marca;
+  if (historiaErrancia) historiaErrancia.textContent = personagem.linhagem.queda;
 
-    // Eventos
-    const eventoQueda = document.getElementById('evento-queda');
-    const eventoLua = document.getElementById('evento-lua');
-    const eventoVaela = document.getElementById('evento-vaela');
-    
-    if (eventoQueda) eventoQueda.textContent = 'Testemunho da ruína dos Escarlates na noite sem retorno.';
-    if (eventoLua) eventoLua.textContent = 'A lunação escarlate que abriu feridas no mundo velado.';
-    if (eventoVaela) eventoVaela.textContent = 'Os traços de Vaela entre pergaminhos e cinzas ritualísticas.';
+  // Eventos
+  const eventoQueda = document.getElementById('evento-queda');
+  const eventoLua = document.getElementById('evento-lua');
+  const eventoVaela = document.getElementById('evento-vaela');
+  if (eventos && eventos.lista) {
+    if (eventoQueda) eventoQueda.textContent = eventos.lista.find(e=>e.id==='queda').descricao;
+    if (eventoLua) eventoLua.textContent = eventos.lista.find(e=>e.id==='lua').descricao;
+    if (eventoVaela) eventoVaela.textContent = eventos.lista.find(e=>e.id==='vaela').descricao;
+  }
 
-    // Lore
-    const lore = document.getElementById('lore-conteudo');
-    if (lore) {
-      lore.innerHTML = `
-        <p><strong>Nome:</strong> ${data.identidade.nome}</p>
-        <p><strong>Alcunhas:</strong> ${data.identidade.alcunhas.join(', ')}</p>
-        <p><strong>Desejo:</strong> ${data.desejo.obsessao} — ${data.desejo.motivo}</p>
-        <p class="aside"><em>Natureza:</em> ${data.identidade.natureza}</p>
-      `;
-    }
-  })
-  .catch(err => console.error('Erro ao carregar dados.json:', err));
+  // Lore principal
+  const lore = document.getElementById('lore-conteudo');
+  if (lore) {
+    lore.innerHTML = `
+      <p><strong>Nome:</strong> ${personagem.identidade.nome}</p>
+      <p><strong>Alcunhas:</strong> ${personagem.identidade.alcunhas.join(', ')}</p>
+      <p><strong>Desejo:</strong> ${personagem.desejo.obsessao} — ${personagem.desejo.motivo}</p>
+      <p class="aside"><em>Natureza:</em> ${personagem.identidade.natureza}</p>
+      <details open>
+        <summary><strong>Fragmentos & Itens</strong></summary>
+        <ul>
+          ${itens.itens.map(i=>`<li><strong>${i.nome}</strong> — <em>${i.tipo}</em> — ${i.simbolismo}</li>`).join('')}
+        </ul>
+      </details>
+    `;
+  }
+}).catch(err => console.error('Erro ao carregar dados modularizados:', err));
+
+// ===== REGISTRO SERVICE WORKER =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(e=>console.log('SW falhou', e));
+  });
+}
 
 // ===== TRANSIÇÃO DE PÁGINA =====
 const transitionMask = document.getElementById('pageTransition');

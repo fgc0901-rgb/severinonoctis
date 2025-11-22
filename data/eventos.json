@@ -1,0 +1,7 @@
+{
+  "lista": [
+    {"id":"queda","titulo":"Ruína dos Escarlates","epoca":"Noite Sem Retorno","descricao":"Testemunho da ruína dos Escarlates na noite sem retorno."},
+    {"id":"lua","titulo":"Lua Sangrenta","epoca":"Ciclo Escarlate","descricao":"A lunação escarlate que abriu feridas no mundo velado."},
+    {"id":"vaela","titulo":"Vestígios de Vaela","epoca":"Pós-Ritual","descricao":"Os traços de Vaela entre pergaminhos e cinzas ritualísticas."}
+  ]
+}

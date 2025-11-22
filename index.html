@@ -4,8 +4,42 @@
   <meta charset="UTF-8">
   <title>Codex de Severino Noctis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Codex de Severino Noctis: grimório vivo, lua sangrenta, jornada rumo à metamorfose vampírica e ecos de rituais perdidos.">
+  <link rel="canonical" href="https://bobbunitinho.com/">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Codex de Severino Noctis">
+  <meta property="og:description" content="Lore, rituais, linhagem e a incompletude de Severino na Lua Sangrenta.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="imagens/og-banner.jpg">
+  <meta property="og:locale" content="pt_BR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Codex de Severino Noctis">
+  <meta name="twitter:description" content="Fragmentos de magia obscura e metamorfose vampírica.">
+  <meta name="twitter:image" content="imagens/og-banner.jpg">
+  <!-- Manifest & Favicon -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="imagens/simbolo.png">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Georgia&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#0a0a0a">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Codex de Severino Noctis",
+    "inLanguage": "pt-BR",
+    "about": "Grimório ficcional sobre Severino Noctis, sua linhagem, rituais e busca pela transformação vampírica.",
+    "author": {
+      "@type": "Person",
+      "name": "Severino Noctis",
+      "alternateName": "O Último Eco"
+    },
+    "genre": ["Dark Fantasy", "Lore Interativo", "Transmídia"],
+    "keywords": "Severino Noctis,lua sangrenta,grimório,lore vampiro,ritual obscuro",
+    "image": "imagens/og-banner.jpg"
+  }
+  </script>
 </head>
 <body>
   <!-- Hero -->
@@ -49,22 +83,22 @@
       </div>
       <div class="grid-galeria">
         <figure class="item" data-cat="noctis">
-          <img src="imagens/noctis1.jpg" alt="Noctis I"/>
+          <img src="imagens/noctis1.jpg" alt="Noctis I" loading="lazy"/>
           <figcaption>O Último Eco</figcaption>
         </figure>
         <figure class="item" data-cat="lua">
-          <img src="imagens/lua.jpg" alt="Lua Sangrenta"/>
+          <img src="imagens/lua.jpg" alt="Lua Sangrenta" loading="lazy"/>
           <figcaption>Lua Sangrenta</figcaption>
         </figure>
         <figure class="item" data-cat="ritual">
-          <img src="imagens/ritual.jpg" alt="Ritual Escarlate"/>
+          <img src="imagens/ritual.jpg" alt="Ritual Escarlate" loading="lazy"/>
           <figcaption>Ritual Escarlate</figcaption>
         </figure>
       </div>
-      <div class="lightbox" id="lightbox">
-        <button class="lightbox-close">×</button>
-        <img class="lightbox-img" alt="">
-        <p class="lightbox-caption"></p>
+      <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualização ampliada da imagem da galeria">
+        <button class="lightbox-close" aria-label="Fechar lightbox">×</button>
+        <img class="lightbox-img" alt="" aria-live="polite">
+        <p class="lightbox-caption" aria-live="polite"></p>
       </div>
     </section>
 
@@ -91,8 +125,11 @@
   </main>
 
   <footer>
-  <footer>
     <p>© Codex Severino Noctis</p>
+    <ul style="list-style:none;display:flex;gap:1rem;justify-content:center;padding:0;margin:1rem 0;">
+      <li><a href="https://www.youtube.com/@bobbunitinho" target="_blank" rel="noopener" aria-label="Canal YouTube BobBunitinho">YouTube</a></li>
+      <li><a href="https://twitch.tv/bobbunitinhu" target="_blank" rel="noopener" aria-label="Canal Twitch bobbunitinhu">Twitch</a></li>
+    </ul>
   </footer>
 
   <canvas id="particles"></canvas>
@@ -100,9 +137,10 @@
     <source src="sons/ambiente.mp3" type="audio/mpeg">
   </audio>
   <div class="audio-controls">
-    <button class="audio-toggle" id="audioToggle" title="Controlar áudio">🔊</button>
+    <button class="audio-toggle" id="audioToggle" title="Controlar áudio" aria-label="Alternar áudio ambiente">🔊</button>
   </div>
   <div class="page-transition" id="pageTransition"></div>
 
   <script src="script.js"></script>
+</body>
 </html>

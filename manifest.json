@@ -1,0 +1,13 @@
+{
+  "name": "Codex de Severino Noctis",
+  "short_name": "Severino Noctis",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "description": "Grimório vivo de Severino Noctis, metamorfose e rituais.",
+  "icons": [
+    {"src": "imagens/simbolo.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "imagens/simbolo.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}

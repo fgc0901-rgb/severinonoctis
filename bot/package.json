@@ -1,0 +1,17 @@
+{
+  "name": "severino-bots",
+  "version": "0.1.0",
+  "description": "Bots Discord e Twitch para Severino Noctis (lore, anúncios, interação)",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "tmi.js": "^1.9.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

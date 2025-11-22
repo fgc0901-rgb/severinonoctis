@@ -1,0 +1,8 @@
+{
+  "itens": [
+    {"nome":"Relicário de Cicatrizes","tipo":"Relíquia","simbolismo":"Reage a luas e sangue derramado indicando pulsos de magia"},
+    {"nome":"Pergaminho Fragmentado","tipo":"Liturgia","simbolismo":"Restaura lacunas do ritual falho quando combinado a símbolos perdidos"},
+    {"nome":"Lâmina de Hematita","tipo":"Catalisador","simbolismo":"Canaliza energia sanguínea com risco de instabilidade"},
+    {"nome":"Sal Negro Marcado","tipo":"Resíduo Ritual","simbolismo":"Protege parcialmente contra drenagem espiritual"}
+  ]
+}

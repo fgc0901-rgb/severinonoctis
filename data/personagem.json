@@ -1,0 +1,23 @@
+{
+  "identidade": {
+    "nome": "Severino Noctis",
+    "alcunhas": ["O Último Eco","O Errante da Lua Sangrenta","O Condenado do Sangue"],
+    "natureza": "Sobrevivente marcado pela Magia Obscura; humano incompleto, atraído pela noite e pela fome ancestral"
+  },
+  "linhagem": {
+    "heranca": "Remanescente das sociedades que estudaram fragmentos da Magia Obscura das Bruxas de Noctum",
+    "queda": "Testemunha da destruição dos Escarlates na Lua Sangrenta",
+    "marca": "Cicatrizes místicas do ritual falho — nem humano pleno, nem criatura da noite"
+  },
+  "desejo": {
+    "obsessao": "Tornar-se vampiro para completar a transformação negada na Lua Sangrenta",
+    "motivo": "Romper a incompletude; substituir condenação por pertencimento à noite"
+  },
+  "poderes": [
+    {"id":"eco_do_sangue","descricao":"Sensibilidade a rituais e fluxos de poder ligados a sacrifícios"},
+    {"id":"conducao_imperfeita","descricao":"Ativa fragmentos de magia de sangue com exaustão subsequente"},
+    {"id":"pressagio","descricao":"Sua presença antecede rumores de antigos rituais"}
+  ],
+  "fraquezas": ["Exaustão mágica pós-ritual","Vulnerabilidade espiritual","Atração compulsiva por relíquias de sangue"],
+  "estado": {"fase":"Incompleto","tensao":"Busca metamorfose sem colapso ritual"}
+}
