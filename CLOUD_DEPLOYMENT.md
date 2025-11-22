@@ -69,18 +69,26 @@ Exemplo jobs:
 4. Deploy (SSH ou API) reiniciando compose.
 
 ## Próximas Melhorias
-- Separar Points Server em rota `/api/points` atrás do mesmo contêiner Express.
-- Auth token simples para endpoints se expostos publicamente.
-- Rate limit em anúncios Discord para evitar flood.
-- Internacionalização (pt/en) via JSON.
+ Auth token simples para endpoints se expostos publicamente.
+ Rate limit em anúncios Discord para evitar flood.
+ Internacionalização (pt/en) via JSON.
+ Healthcheck script integrado em CI.
 
 ## Comandos Essenciais
 ```bash
 # Build e subir tudo
-docker compose up --build -d
-
-# Ver logs bots
+ 3. `curl https://api.seu-dominio/points` retorna agregados de pontuação.
+ 4. Discord canal recebe anúncio ao iniciar live.
+ 5. PWA instala e offline carrega `index.html`.
+ 6. Healthcheck: `node scripts/healthcheck.js --domain seu-dominio --api https://api.seu-dominio`.
 docker compose logs -f bots
+ ## Healthcheck
+ Script: `scripts/healthcheck.js`.
+ Exemplo uso local:
+ ```bash
+ node scripts/healthcheck.js --domain bobbunitinho.com --api https://api.bobbunitinho.com
+ ```
+ Saída: JSON com campo `ok` indicando sucesso geral. Pode ser integrado em GitHub Actions pós-deploy (passo adicional) para falhar se indisponível.
 
 # Reiniciar somente bots
 docker compose restart bots

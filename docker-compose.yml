@@ -20,5 +20,10 @@ services:
       - "3080:3080"
       - "4580:4580"
     command: sh -c "node bot/src/index.js"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3080/status').then(r=>{if(r.ok)process.exit(0);else process.exit(1)}).catch(()=>process.exit(1))\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
     depends_on:
       - frontend
