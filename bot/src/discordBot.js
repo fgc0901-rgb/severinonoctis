@@ -76,12 +76,15 @@ export function startDiscordBot() {
         const status = getPlatformStatuses();
         const fmt = (p) => p.live ? 'AO VIVO' : 'offline';
         const twitchUrl = process.env.TWITCH_LINK || `https://twitch.tv/${process.env.TWITCH_CHANNEL}`;
-        const ytUrl = status.youtube.stream ? `https://youtube.com/watch?v=${status.youtube.stream.title ? '' : ''}` : `https://youtube.com/channel/${process.env.YOUTUBE_CHANNEL_ID || ''}`;
+        const ytChannelId = process.env.YOUTUBE_CHANNEL_ID || '';
+        const ytUrl = (status.youtube.live && status.youtube.stream?.videoId)
+          ? `https://youtube.com/watch?v=${status.youtube.stream.videoId}`
+          : (ytChannelId ? `https://youtube.com/channel/${ytChannelId}` : 'https://youtube.com');
         const kickUrl = `https://kick.com/${process.env.KICK_CHANNEL_SLUG || ''}`;
         msg.reply(
           `Status Plataformas:\n` +
           `• Twitch: ${fmt(status.twitch)} (${twitchUrl})\n` +
-          `• YouTube: ${fmt(status.youtube)}\n` +
+          `• YouTube: ${fmt(status.youtube)} (${ytUrl})\n` +
           `• Kick: ${fmt(status.kick)} (${kickUrl})`
         );
       } catch (e) {

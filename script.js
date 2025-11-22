@@ -70,6 +70,7 @@ if (lightbox) {
       lbImg.alt = img.alt;
       lbCap.textContent = item.querySelector('figcaption').textContent;
       lightbox.classList.add('open');
+      if (lbClose) { lbClose.setAttribute('tabindex','0'); lbClose.focus(); }
     });
   });
   
@@ -226,8 +227,9 @@ Promise.all([
   fetch('data/personagem.json').then(r => r.json()),
   fetch('data/eventos.json').then(r => r.json()),
   fetch('data/itens.json').then(r => r.json()).catch(()=>({itens:[]})),
-  fetch('data/atualizacoes.json').then(r => r.json()).catch(()=>({lista:[]}))
-]).then(([personagem, eventos, itens, atualizacoes]) => {
+  fetch('data/atualizacoes.json').then(r => r.json()).catch(()=>({lista:[]})),
+  fetch('imagens/rdr2/rdr2.json').then(r => r.json()).catch(()=>({capturas:[]}))
+]).then(([personagem, eventos, itens, atualizacoes, rdr2]) => {
   // História
   const historiaOrigem = document.getElementById('historia-origem');
   const historiaRitual = document.getElementById('historia-ritual');
@@ -313,6 +315,20 @@ Promise.all([
     }
     renderPage(1);
   }
+
+  // RDR2 Galeria (opcional)
+  const rdr2Container = document.getElementById('rdr2-galeria');
+  if(rdr2Container && rdr2 && Array.isArray(rdr2.capturas)){
+    if(rdr2.capturas.length === 0){
+      rdr2Container.innerHTML = '<p class="aside" style="grid-column:1/-1;text-align:center;">Nenhuma captura adicionada. Use o script de conversão e atualize <code>rdr2.json</code>.</p>';
+    } else {
+      rdr2Container.innerHTML = rdr2.capturas.map(c => {
+        const alt = c.alt || 'Captura RDR2';
+        const file = `imagens/rdr2/${c.arquivo}`;
+        return `<figure class="item" data-cat="rdr2"><img src="${file}" alt="${alt}" loading="lazy" decoding="async" width="300" height="300" /><figcaption>${alt}</figcaption></figure>`;
+      }).join('');
+    }
+  }
 }).catch(err => console.error('Erro ao carregar dados modularizados:', err));
 
 // ===== REGISTRO SERVICE WORKER =====
@@ -320,6 +336,88 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('service-worker.js').catch(e=>console.log('SW falhou', e));
   });
+}
+
+// ===== GRÁFICOS DE PONTUAÇÃO (SEM BIBLIOTECA) =====
+function drawSimpleBar(ctx, dataPairs, opts={}) {
+  const {w, h} = ctx.canvas;
+  ctx.clearRect(0,0,w,h);
+  const padding = 40;
+  const maxVal = Math.max(...dataPairs.map(p=>p[1]), 1);
+  const barW = (w - padding*2) / dataPairs.length * 0.6;
+  dataPairs.forEach((p,i)=>{
+    const x = padding + (i+0.5) * ((w - padding*2)/dataPairs.length);
+    const hVal = (p[1]/maxVal) * (h - padding*2);
+    ctx.fillStyle = palette.base;
+    ctx.fillRect(x - barW/2, h - padding - hVal, barW, hVal);
+    ctx.fillStyle = palette.accent;
+    ctx.fillRect(x - barW/2, h - padding - Math.min(8, hVal*0.2), barW, Math.min(8, hVal*0.2));
+    ctx.fillStyle = '#222';
+    ctx.font = '12px Georgia';
+    ctx.textAlign = 'center';
+    ctx.fillText(p[0], x, h - padding + 14);
+    ctx.fillText(p[1], x, h - padding - hVal - 6);
+  });
+  // eixo
+  ctx.strokeStyle = '#444';
+  ctx.beginPath(); ctx.moveTo(padding, h - padding); ctx.lineTo(w - padding, h - padding); ctx.stroke();
+}
+
+function drawSimpleLine(ctx, dataPairs) {
+  const {w,h} = ctx.canvas;
+  ctx.clearRect(0,0,w,h);
+  const padding = 50;
+  const maxVal = Math.max(...dataPairs.map(p=>p[1]),1);
+  const stepX = (w - padding*2)/(dataPairs.length-1 || 1);
+  ctx.strokeStyle = '#bbb';
+  for(let i=0;i<=4;i++){
+    const y = h - padding - (h - padding*2)*(i/4);
+    ctx.beginPath(); ctx.moveTo(padding,y); ctx.lineTo(w - padding,y); ctx.stroke();
+  }
+  ctx.beginPath();
+  ctx.strokeStyle = palette.base;
+  ctx.lineWidth = 2;
+  dataPairs.forEach((p,i)=>{
+    const x = padding + i*stepX;
+    const y = h - padding - (p[1]/maxVal)*(h - padding*2);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+  dataPairs.forEach((p,i)=>{
+    const x = padding + i*stepX;
+    const y = h - padding - (p[1]/maxVal)*(h - padding*2);
+    ctx.fillStyle = palette.accent; ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#222'; ctx.font='12px Georgia'; ctx.textAlign='center'; ctx.fillText(p[0], x, h - padding + 16);
+    ctx.fillText(p[1], x, y - 10);
+  });
+}
+
+function initPointsCharts(){
+  const weekCanvas = document.getElementById('pointsWeekChart');
+  const typeCanvas = document.getElementById('pointsTypeChart');
+  const summaryEl = document.getElementById('pointsSummary');
+  if(!weekCanvas || !typeCanvas) return;
+  fetch('http://localhost:4580').then(r=>r.json()).then(json => {
+    if(json.error){ summaryEl.textContent = 'Servidor de pontos indisponível.'; return; }
+    const byDate = json.by_date || {}; // { '2025-11-21': pts }
+    // Ordena por data crescente
+    const dates = Object.keys(byDate).sort();
+    const weekPairs = dates.slice(-7).map(d=>[d.slice(5), Number(byDate[d])]);
+    drawSimpleLine(weekCanvas.getContext('2d'), weekPairs);
+    const byType = json.by_type || {};
+    const typePairs = Object.entries(byType).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    drawSimpleBar(typeCanvas.getContext('2d'), typePairs);
+    summaryEl.textContent = `Total acumulado: ${json.total_points} | Semana: ${json.current_week?.points ?? 0} | Lives: ${json.lives?.count ?? 0} (média views ${Math.round(json.lives?.avg_views ?? 0)})`;
+  }).catch(()=>{ if(summaryEl) summaryEl.textContent='Sem resposta do servidor de pontos.'; });
+}
+
+// Ativa gráficos quando seção pontuacao entrar na tela
+const pontuacaoSec = document.getElementById('pontuacao');
+if(pontuacaoSec){
+  const pointsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e=>{ if(e.isIntersecting){ initPointsCharts(); pointsObserver.unobserve(e.target); } });
+  }, {threshold:0.3});
+  pointsObserver.observe(pontuacaoSec);
 }
 
 // ===== TRANSIÇÃO DE PÁGINA =====
@@ -339,8 +437,11 @@ if (transitionMask) {
         p.classList.remove('visible');
       }
     });
-    pageLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
-    // Atualiza indicador se disponível
+    pageLinks.forEach(a => {
+      const isActive = a.getAttribute('href') === '#'+id;
+      a.classList.toggle('active', isActive);
+      if(isActive){ a.setAttribute('aria-current','page'); } else { a.removeAttribute('aria-current'); }
+    });
     const activeLink = [...pageLinks].find(a=>a.classList.contains('active'));
     if(activeLink){ setIndicator(activeLink); }
   }

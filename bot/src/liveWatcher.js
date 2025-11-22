@@ -117,7 +117,7 @@ function buildDiscordMessage(streamData, channelLogin) {
 }
 
 export function startLiveWatcher(opts) {
-  const { discordClient, channelLogin, announceChannelId, clientId, clientSecret, pollInterval, announceOnce } = opts;
+  const { discordClient, channelLogin, announceChannelId, clientId, clientSecret, pollInterval, announceOnce, backoffMaxFactor = 32 } = opts;
   if (!discordClient) return console.log('[LiveWatcher] Discord não disponível.');
   if (!channelLogin || !announceChannelId) return console.log('[LiveWatcher] Configuração incompleta para watcher.');
 
@@ -141,9 +141,20 @@ export function startLiveWatcher(opts) {
     lastData = live ? data : null;
   }
 
-  poll(); // primeira execução
-  const interval = setInterval(poll, pollInterval);
-  return interval;
+  let errorCount = 0;
+  async function loop(){
+    try {
+      await poll();
+      errorCount = 0; // sucesso zera
+    } catch(e){
+      errorCount = Math.min(errorCount + 1, Math.log2(backoffMaxFactor));
+      console.log('[LiveWatcher] Erro loop, aplicando backoff', e.message);
+    }
+    const next = pollInterval * Math.pow(2, errorCount);
+    setTimeout(loop, next);
+  }
+  loop();
+  return true;
 }
 
 export function getLiveStatus() {
@@ -200,7 +211,8 @@ export function startAggregatedWatcher(opts){
     twitch:{ channelLogin, clientId, clientSecret, announceOnce = true } = {},
     youtube:{ apiKey, channelId, announce = true } = {},
     kick:{ slug, announce: kickAnnounce = true } = {},
-    pollInterval = 60000
+    pollInterval = 60000,
+    backoffMaxFactor = 32
   } = opts;
 
   if(!discordClient || !announceChannelId){
@@ -210,10 +222,14 @@ export function startAggregatedWatcher(opts){
   console.log('[MultiWatcher] Iniciado multi-plataforma.');
   const channel = () => discordClient.channels.cache.get(announceChannelId);
 
+  let errorCount = 0;
   async function poll(){
     // Twitch
     if(channelLogin){
-      const { live, data } = await checkLive({ clientId, clientSecret, channelLogin });
+      let liveResp;
+      try { liveResp = await checkLive({ clientId, clientSecret, channelLogin }); }
+      catch(e){ console.log('[MultiWatcher] Twitch erro', e.message); liveResp = { live:false, error:true }; }
+      const { live, data, error } = liveResp;
       if(live && !lastLive){
         if(!announceOnce || (announceOnce && !announcedThisSession)){
           const c = channel();
@@ -221,26 +237,49 @@ export function startAggregatedWatcher(opts){
         }
       }
       lastLive = live; lastData = live ? data : null;
+      if(error) errorCount++;
     }
     // YouTube
     if(apiKey && channelId){
-      const { live, data } = await checkYouTubeLive({ apiKey, channelId });
+      let ytResp;
+      try { ytResp = await checkYouTubeLive({ apiKey, channelId }); }
+      catch(e){ console.log('[MultiWatcher] YouTube erro', e.message); ytResp = { live:false, error:true }; }
+      const { live, data, error } = ytResp;
       if(live && !ytLastLive && youtube.announce !== false){
         const c = channel(); if(c){ c.send(buildYouTubeMessage(data, channelId)); ytAnnounced = true; }
       }
       ytLastLive = live; ytLastData = live ? data : null;
+      if(error) errorCount++;
     }
     // Kick
     if(slug){
-      const { live, data } = await checkKickLive({ slug });
+      let kickResp;
+      try { kickResp = await checkKickLive({ slug }); }
+      catch(e){ console.log('[MultiWatcher] Kick erro', e.message); kickResp = { live:false, error:true }; }
+      const { live, data, error } = kickResp;
       if(live && !kickLastLive && kickAnnounce){
         const c = channel(); if(c){ c.send(buildKickMessage(data, slug)); kickAnnounced = true; }
       }
       kickLastLive = live; kickLastData = live ? data : null;
+      if(error) errorCount++;
     }
   }
-  poll();
-  return setInterval(poll, pollInterval);
+  async function loop(){
+    let localErrorsBefore = errorCount;
+    try {
+      await poll();
+      // Se poll não incrementou errorCount além do anterior, reset
+      if(errorCount === localErrorsBefore) errorCount = 0; // nenhum erro novo
+    } catch(e){
+      errorCount = Math.min(errorCount + 1, Math.log2(backoffMaxFactor));
+      console.log('[MultiWatcher] Erro loop geral', e.message);
+    }
+    const effectiveFactor = Math.min(Math.pow(2, errorCount), backoffMaxFactor);
+    const next = pollInterval * effectiveFactor;
+    setTimeout(loop, next);
+  }
+  loop();
+  return true;
 }
 
 export function getPlatformStatuses(){
@@ -249,7 +288,7 @@ export function getPlatformStatuses(){
     youtube: {
       live: ytLastLive,
       announced: ytAnnounced,
-      stream: ytLastData ? { title: ytLastData.snippet?.title } : null
+      stream: ytLastData ? { title: ytLastData.snippet?.title, videoId: ytLastData.id?.videoId } : null
     },
     kick: {
       live: kickLastLive,

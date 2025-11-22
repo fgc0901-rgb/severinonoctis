@@ -160,6 +160,12 @@ blockquote { font-size:1.15rem; font-style:italic; color:var(--ink); text-align:
 
 /* ===== FOOTER ===== */
 footer { text-align:center; padding:2rem 1rem; background:linear-gradient(180deg,#d5c3a7,#c6b090); color:var(--ink); font-size:.85rem; letter-spacing:.5px; border-top:3px solid var(--rust); box-shadow:0 -4px 10px rgba(120,90,50,.3); }
+/* Social links */
+.social-links { list-style:none; display:flex; gap:1.1rem; justify-content:center; padding:0; margin:1.1rem 0 0; flex-wrap:wrap; }
+.social-links a { display:inline-flex; align-items:center; gap:.45rem; text-decoration:none; font-size:.7rem; letter-spacing:.6px; background:linear-gradient(180deg,#e9dcc6,#d6c3a7); padding:.5rem .85rem; border:1px solid #b59b78; border-radius:6px; color:var(--ink); transition:.25s ease; font-family:'Merriweather', serif; }
+.social-links a:hover, .social-links a:focus-visible { background:linear-gradient(180deg,var(--accent) 0%,var(--accent-dark) 100%); color:#fdf9f1; border-color:var(--accent-dark); }
+.social-icon { width:18px; height:18px; display:block; }
+.social-icon path { fill:currentColor; }
 
 /* ===== REVEAL ANIMATIONS ===== */
 .reveal, .reveal-list li { opacity:0; transform:translateY(20px); transition:.6s ease; }

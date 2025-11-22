@@ -1,6 +1,7 @@
 # Dossiê Militar: Severino Noctis
 
-Relatório transmídia classificado sobre Severino Noctis: registro de serviço, incidentes classificados, avaliação psicológica, logística & suprimentos e expansão narrativa operacional em múltiplas plataformas (YouTube, Twitch/Kick, TikTok e Web).
+Relatório transmídia classificado sobre Severino Noctis: registro de serviço, incidentes classificados, avaliação psicológica, logística & suprimentos e expansão narrativa operacional em múltiplas plataformas (YouTube, Twitch/Kick, TikTok, Instagram e Web).
+Inclui agora diretório opcional de capturas autorais de Red Dead Redemption 2 (`imagens/rdr2/`) com disclaimer de uso legítimo (nenhum asset proprietário redistribuído).
 
 ## 1. Estrutura do Projeto
 ```
@@ -43,6 +44,7 @@ Incluídos: meta description, Open Graph, Twitter Card, canonical, JSON-LD. Atua
 | YouTube Shorts | Micro-incidente / símbolo decodificado | 3x/sem | Descoberta / CTR |
 | Twitch/Kick | Live Operacional (análise fragmentos / simulação ritual / Q&A) | 2–3x/sem | Comunidade / watch time |
 | TikTok | Clip vertical (30–45s) com legenda forte + call to Discord | 4–5x/sem | Alcance / funil |
+| Instagram | Reels (15–45s) + Stories de teasers / bastidores | 3–4x/sem | Reforço de marca / descoberta |
 | Discord | Drops, enquetes, resumos pós-live | Diário | Retenção / pertencimento |
 
 Pilares narrativos: (1) Incompletude / estabilização; (2) Incidentes históricos; (3) Artefatos funcionais; (4) Avaliação psicológica progressiva; (5) Colapso Escarlate.
@@ -148,6 +150,9 @@ GET /api/rituais -> rituais.json (futuro)
 - [ ] Registrar perfis em todas plataformas
  - [ ] Verificar handle YouTube @bobbunitinho
  - [ ] Verificar Twitch bobbunitinhu
+ - [ ] Verificar Instagram bobbunitinho
+ - [ ] Verificar TikTok @BobBunitinho
+- [ ] Adicionar primeiras capturas RDR2 (próprias) convertidas para WebP
 
 ## 16. Comunidade
 ### Estrutura Discord
